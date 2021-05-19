@@ -7,6 +7,7 @@ function App() {
   const [email, setEmail] = useState('')
   const [sending, setSending] = useState(false)
   const [apiInterval, setApiInterval] = useState()
+  const [userSetInterval, setUserSetInterval] = useState()
 
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function App() {
       console.log("Sending");
       const timeInterval = setInterval(() => {
         handleApiRequest();
-      }, 5000);
+      }, userSetInterval);
 
       setApiInterval(timeInterval);
 
@@ -36,6 +37,9 @@ function App() {
   }
   const handleEmailInput = (e) => {
     setEmail(e.target.value)
+  }
+  const handleIntervalInput = (e) => {
+    setUserSetInterval(e.target.value)
   }
   const handleSendData = () => {
     !sending ? setSending(true) : setSending(false)
@@ -61,6 +65,7 @@ function App() {
         <form>
           <input placeholder="Name" onChange={(e)=> handleNameInput(e)} value={name}/>
           <input placeholder="Email" onChange={(e)=> handleEmailInput(e)}  value={email}/>
+          <input style={{ width: "45%" }}placeholder="Set request interval (in milliseconds)" onChange={(e)=> handleIntervalInput(e)}  value={userSetInterval}/>
         </form>
         </header>
     </div>
