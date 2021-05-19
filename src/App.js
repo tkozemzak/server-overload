@@ -6,22 +6,29 @@ function App() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [sending, setSending] = useState(false)
-  const [data, setData] = useState()
+  const [apiInterval, setApiInterval] = useState()
 
 
   useEffect(() => {
-    console.log("UseEffect");
+ 
+    
+    if (sending) {
+      console.log("Sending");
+      const timeInterval = setInterval(() => {
+        handleApiRequest();
+      }, 5000);
 
-  
-    axios({
-      method: 'post',
-      url: 'http://localhost:3001/users',
-      data: {
-        name: name,
-        email: email
-      }
-    });
-  }, [sending])
+      setApiInterval(timeInterval);
+
+      return () => {
+        clearInterval(timeInterval);
+        clearInterval(apiInterval);
+      };
+    }
+
+    // eslint-disable-next-line
+  }, [sending]);
+
 
 
   const handleNameInput = (e) => {
@@ -36,17 +43,21 @@ function App() {
 
   const handleApiRequest = () => {
     console.log("SENDING API REQ");
-   axios.get('http://localhost:3001/users').then(res => {
-      const data = res.data
-      setData(data)
-    })
+    axios({
+          method: 'post',
+          url: 'http://localhost:3001/users',
+          data: {
+            name: name,
+            email: email
+          }
+        });
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <button onClick={handleSendData}>{ sending ? "Stop Sending Data" : "Send Data Constantly"}</button>
-        <button onClick={handleApiRequest}>Send API Request</button>
+        
         <form>
           <input placeholder="Name" onChange={(e)=> handleNameInput(e)} value={name}/>
           <input placeholder="Email" onChange={(e)=> handleEmailInput(e)}  value={email}/>
