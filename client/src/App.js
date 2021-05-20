@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={handleSendData}>{ sending ? "Stop Sending Data" : "Send Data Constantly"}</button>
+        <button className={sending ? "btn btn-red" : "btn btn-green"} onClick={handleSendData}>{ sending ? "Stop Sending Data" : "Send Data Constantly"}</button>
         
         <form>
           <input placeholder="Name" onChange={(e)=> handleNameInput(e)} value={name}/>
