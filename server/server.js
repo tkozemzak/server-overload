@@ -8,14 +8,14 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
+let count = 0;
 
-app.listen(3001, () => {
-console.log("Listening on 3001");
+app.listen(process.env.PORT, () => {
+console.log(`Listening on port ${process.env.PORT}`);
 })
 
 app.get('/users', (req, res) => {
     knex('users').then((results)=> {
-        console.log(results)
         res.send(results)
     })
 })
@@ -27,7 +27,8 @@ app.post("/users", (req, res) => {
     }).then(()=> {
         res.sendStatus(200)
     })
-    console.log(`Receiving request: ${JSON.stringify(req.body)}`);
+    count++
+    console.log(`${count} records added`);
 
 })
 
